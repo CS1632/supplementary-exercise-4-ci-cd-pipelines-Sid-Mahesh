@@ -20,7 +20,8 @@ public class RentACatBuggy implements RentACat {
 	public boolean returnCat(int id) {
 		// TODO
 		Cat c = getCat(id);
-		if (c != null && !c.getRented()) {
+		//if (c != null && !c.getRented()) {
+		if (catExists(id) && c.getRented()) {
 			c.returnCat();
 			return true;
 		}
@@ -38,13 +39,22 @@ public class RentACatBuggy implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO
-		Cat c = getCat(id);
-		if (c != null && c.getRented()) {
-			c.rentCat();
-			return true;
-		}
-		return true;
+		// TODO $
+		// if (catExists(id)) {
+		// 	for (Cat cat : cats) {
+		// 		if (cat.getId() == id) {
+		// 			cat.rentCat();
+
+		// 			if (!catAvailable(id)) {
+		// 				return true;
+		// 			}
+
+		// 			break;
+		// 		}
+		// 	}
+		// }
+		// return false;
+		return (catExists(id) && !(catAvailable(id)));
 	}
 
 	/**
@@ -58,24 +68,14 @@ public class RentACatBuggy implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO
-		String ret = "";
-		// null / zero-element check
-		if (cats == null || cats.size() == 0) {
-			return "empty";
-		}
-
-		// Loop through every cat in the cat list
-		for (Cat c : cats) {
-			if (!c.getRented()) {
-				ret += c.toString();
-				ret += "\t";
+		// TODO $
+		String returnString = "";
+		for (Cat cat : cats) {
+			if (catAvailable(cat.getId())) {
+				returnString += ("ID " + cat.getId() + ". " + cat.getName() + "\n");
 			}
 		}
-		// If we get all the way through the list and did
-		// not find a cat whose ID matches the passed-in
-		// ID, then the cat is not in the list
-		return ret;
+		return returnString;
 	}
 
 	/**
@@ -88,8 +88,12 @@ public class RentACatBuggy implements RentACat {
 	 */
 
 	public boolean catExists(int id) {
-		// TODO
-		return getCat(id) == null;
+		// TODO $
+		if (cats == null) {
+			return false;
+		}
+
+		return cats.contains(getCat(id));
 	}
 
 	/**
